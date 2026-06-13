@@ -22,9 +22,9 @@ public class RepairOrder : BaseEntity
     public string WarrantyNumber { get; set; } = "";
     public bool ApprovedByDealer { get; set; }
 
-    public string AssignedMechanicId { get; private set; } = "";
+    public string AssignedMechanicId { get; internal set; } = "";
     [System.Text.Json.Serialization.JsonIgnore]
-    public Mechanic? AssignedMechanic { get; private set; }
+    public Mechanic? AssignedMechanic { get; internal set; }
 
     public DateTime AcceptedAt { get; init; } = DateTime.Now;
     public DateTime? CompletedAt { get; private set; }
@@ -65,7 +65,7 @@ public class RepairOrder : BaseEntity
         UpdateStatus(OrderStatus.Completed);
     }
 
-    private void UpdateStatus(OrderStatus newStatus)
+    public void UpdateStatus(OrderStatus newStatus)
     {
         Status = newStatus;
         _statusHistory.Add($"{DateTime.Now}: Status changed to {newStatus}");
