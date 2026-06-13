@@ -21,11 +21,11 @@ public class AutoServiceManager
 
     public RepairReport? _currentReport;
 
-    public JsonFileStore<Customer> CustomerStore { get; set; } = new();
-    public JsonFileStore<Car> CarStore { get; set; } = new();
-    public JsonFileStore<RepairOrder> OrderStore { get; set; } = new();
-    public JsonFileStore<Part> PartStore { get; set; } = new();
-    public JsonFileStore<Mechanic> MechanicStore { get; set; } = new();
+    public IDataProvider<Customer> CustomerStore { get; set; } = new JsonFileStore<Customer>();
+    public IDataProvider<Car> CarStore { get; set; } = new JsonFileStore<Car>();
+    public IDataProvider<RepairOrder> OrderStore { get; set; } = new JsonFileStore<RepairOrder>();
+    public IDataProvider<Part> PartStore { get; set; } = new JsonFileStore<Part>();
+    public IDataProvider<Mechanic> MechanicStore { get; set; } = new JsonFileStore<Mechanic>();
     public SmsNotifier SmsNotifier { get; set; } = new();
     public EmailSender EmailSender { get; set; } = new();
     public ReportService ReportService { get; set; } = new();
