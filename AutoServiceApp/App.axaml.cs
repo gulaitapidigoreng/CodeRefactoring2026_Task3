@@ -1,6 +1,8 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using AutoServiceApp.Services;
+using AutoServiceApp.ViewModels;
 
 namespace AutoServiceApp;
 
@@ -15,7 +17,14 @@ public partial class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = new MainWindow();
+            var globalManager = new AutoServiceManager();
+
+            globalManager.Load();
+
+            desktop.MainWindow = new MainWindow(globalManager)
+            {
+                DataContext = new MainWindowViewModel(globalManager)
+            };
         }
 
         base.OnFrameworkInitializationCompleted();
