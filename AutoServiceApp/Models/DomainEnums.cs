@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AutoServiceApp.Models;
+﻿namespace AutoServiceApp.Models;
 
 public enum OrderStatus
 {
@@ -19,4 +13,11 @@ public enum PaymentType
     Cash,
     Card,
     BankTransfer
+}
+
+public enum OrderType
+{
+    Standard,
+    Urgent,
+    Warranty
 }

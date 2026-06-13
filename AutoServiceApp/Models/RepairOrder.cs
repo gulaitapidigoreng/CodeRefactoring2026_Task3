@@ -2,6 +2,8 @@ namespace AutoServiceApp.Models;
 
 public class RepairOrder : BaseEntity
 {
+    public const decimal DefaultUrgentFee = 500m;
+
     public string OrderNumber { get; set; } = "";
     public string CustomerId { get; set; } = "";
     public string CarId { get; set; } = "";
@@ -11,6 +13,15 @@ public class RepairOrder : BaseEntity
     public Car? Car { get; set; }
     public string ProblemDescription { get; set; } = "";
     public OrderStatus Status { get; set; } = OrderStatus.New;
+
+    public OrderType Type { get; set; } = OrderType.Standard;
+
+    public bool NeedTaxi { get; set; }
+    public decimal UrgentFee { get; set; } = DefaultUrgentFee;
+
+    public string WarrantyNumber { get; set; } = "";
+    public bool ApprovedByDealer { get; set; }
+
     public string AssignedMechanicId { get; set; } = "";
     [System.Text.Json.Serialization.JsonIgnore]
     public Mechanic? AssignedMechanic { get; set; }
@@ -26,18 +37,7 @@ public class RepairOrder : BaseEntity
     {
         var client = Customer?.Name ?? CustomerId;
         var car = Car == null ? CarId : $"{Car.Make} {Car.Model}";
-        return $"{OrderNumber}: {client}, {car}, {Status}, {Cost:C}";
+
+        return $"{OrderNumber} ({Type}): {client}, {car}, {Status}, {Cost:C}";
     }
-}
-
-public class UrgentRepairOrder : RepairOrder
-{
-    public bool NeedTaxi { get; set; }
-    public decimal UrgentFee { get; set; } = 500;
-}
-
-public class WarrantyRepairOrder : RepairOrder
-{
-    public string WarrantyNumber { get; set; } = "";
-    public bool ApprovedByDealer { get; set; }
 }
