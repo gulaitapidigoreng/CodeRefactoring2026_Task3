@@ -9,9 +9,10 @@ public class ReportService
     {
         var result = new StringBuilder();
         var selected = orders.Where(o => o.AcceptedAt.Date >= from.Date && o.AcceptedAt.Date <= to.Date).ToList();
-        result.AppendLine($"Revenue for period {from:d} - {to:d}: {selected.Sum(x => x.Cost):C}");
+
+        result.AppendLine($"Revenue for period {from:d} - {to:d}: {selected.Sum(x => x.CalculateTotalCost()):C}");
         result.AppendLine($"Orders: {selected.Count}");
-        result.AppendLine($"With service multiplier: {(selected.Sum(x => x.Cost) * 1.20m):C}");
+        result.AppendLine($"With service multiplier: {(selected.Sum(x => x.CalculateTotalCost()) * 1.20m):C}");
         return result.ToString();
     }
 
@@ -30,7 +31,7 @@ public class ReportService
         sb.AppendLine("Mechanic workload");
         foreach (var m in mechanics)
         {
-            var count = orders.Count(o => o.AssignedMechanicId == m.Id && o.Status != "Released");
+            var count = orders.Count(o => o.AssignedMechanicId == m.Id && o.Status != OrderStatus.Completed);
             var bonus = count > 5 ? 1000 : 0;
             sb.AppendLine($"{m.Name}: active orders {count}, estimated bonus {bonus}");
         }
